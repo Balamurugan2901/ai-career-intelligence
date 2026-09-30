@@ -1,0 +1,155 @@
+{
+  "GenAI Engineer": {
+    "role_name": "GenAI Engineer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "RAG (Retrieval-Augmented Generation)", "Large Language Models", "LangChain", "Vector Databases", "FastAPI"],
+    "emerging_skills": ["Agentic Workflows", "Function Calling", "Multimodal RAG", "Fine-Tuning (LoRA)", "DSPy"],
+    "tools_and_frameworks": ["LangChain", "LlamaIndex", "ChromaDB", "Pinecone", "FastAPI", "OpenAI API"],
+    "cloud_technologies": ["AWS Bedrock", "Docker", "GCP Vertex AI"],
+    "key_responsibilities": [
+      "Design and deploy production-grade RAG systems over enterprise datasets.",
+      "Implement autonomous multi-agent orchestration workflows.",
+      "Evaluate LLM output quality, latency, and token consumption cost optimization."
+    ],
+    "salary_trend_summary": "Extremely high market demand; top-tier compensation premium across AI startups and enterprise innovation labs.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "AI Engineer": {
+    "role_name": "AI Engineer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "Machine Learning", "Deep Learning", "PyTorch", "FastAPI", "REST APIs"],
+    "emerging_skills": ["LLM Integration", "Model Quantization", "ONNX Runtime", "AI Agent Development"],
+    "tools_and_frameworks": ["PyTorch", "Scikit-Learn", "FastAPI", "Hugging Face Transformers", "OpenCV"],
+    "cloud_technologies": ["AWS SageMaker", "Docker", "Kubernetes"],
+    "key_responsibilities": [
+      "Integrate machine learning models into high-performance web applications.",
+      "Develop RESTful AI microservices with automated model deployment pipelines.",
+      "Optimize inference throughput and memory footprints."
+    ],
+    "salary_trend_summary": "High market demand; competitive salaries across software and tech product companies.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "ML Engineer": {
+    "role_name": "ML Engineer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "Machine Learning", "Scikit-Learn", "PyTorch", "SQL", "Pandas"],
+    "emerging_skills": ["MLOps", "Feature Stores (Feast)", "Distributed Training (Ray)", "Model Monitoring"],
+    "tools_and_frameworks": ["Scikit-Learn", "PyTorch", "TensorFlow", "MLflow", "Pandas"],
+    "cloud_technologies": ["AWS SageMaker", "Docker", "Kubernetes", "GCP Vertex AI"],
+    "key_responsibilities": [
+      "Build scalable machine learning pipelines from feature engineering to model serving.",
+      "Track model experiments, metrics, and versioning using MLflow.",
+      "Monitor production model drift and automate retrain triggers."
+    ],
+    "salary_trend_summary": "Strong consistent demand across data-driven companies.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "Data Scientist": {
+    "role_name": "Data Scientist",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "SQL", "Machine Learning", "Scikit-Learn", "Pandas", "Statistics"],
+    "emerging_skills": ["Causal Inference", "GenAI Analytics", "Spark / Distributed Compute"],
+    "tools_and_frameworks": ["Pandas", "NumPy", "Scikit-Learn", "Jupyter", "Statsmodels"],
+    "cloud_technologies": ["AWS", "Snowflake", "Databricks"],
+    "key_responsibilities": [
+      "Formulate business hypothesis, analyze complex datasets, and construct predictive ML models.",
+      "Design A/B tests and deliver actionable analytical recommendations to executive stakeholders."
+    ],
+    "salary_trend_summary": "Mature, highly stable role with strong demand in finance, healthcare, and e-commerce.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "Data Analyst": {
+    "role_name": "Data Analyst",
+    "demand_level": "MEDIUM DEMAND",
+    "top_required_skills": ["SQL", "Python", "Pandas", "Excel", "Data Visualization"],
+    "emerging_skills": ["Automated BI", "dbt (Data Build Tool)", "Python Analytics"],
+    "tools_and_frameworks": ["Tableau", "Power BI", "SQL", "Pandas", "Excel"],
+    "cloud_technologies": ["AWS Redshift", "Snowflake", "Google BigQuery"],
+    "key_responsibilities": [
+      "Extract, clean, and transform data using SQL queries.",
+      "Build interactive executive dashboards and report business performance metrics."
+    ],
+    "salary_trend_summary": "Steady entry-to-mid level demand across all industries.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "Backend Developer": {
+    "role_name": "Backend Developer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "FastAPI", "SQL", "PostgreSQL", "REST APIs", "Git"],
+    "emerging_skills": ["Async Microservices", "gRPC", "Event-Driven Architecture (Kafka)", "GraphQL"],
+    "tools_and_frameworks": ["FastAPI", "Django", "SQLAlchemy", "Redis", "PostgreSQL"],
+    "cloud_technologies": ["AWS", "Docker", "Kubernetes", "GitHub Actions"],
+    "key_responsibilities": [
+      "Architect clean, secure, high-throughput REST backend APIs.",
+      "Design relational database schemas and manage connection pools and caching layers."
+    ],
+    "salary_trend_summary": "High core demand across nearly all tech companies.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "Software Developer": {
+    "role_name": "Software Developer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "JavaScript", "SQL", "Git", "REST APIs"],
+    "emerging_skills": ["TypeScript", "Full-Stack AI Integration", "Cloud-Native Design"],
+    "tools_and_frameworks": ["React", "FastAPI", "Node.js", "Git", "VS Code"],
+    "cloud_technologies": ["AWS", "Docker", "Vercel"],
+    "key_responsibilities": [
+      "Develop end-to-end software features across frontend and backend stacks.",
+      "Write unit and integration tests ensuring code quality and maintainability."
+    ],
+    "salary_trend_summary": "Broad foundational demand across mid and large tech organizations.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "Computer Vision Engineer": {
+    "role_name": "Computer Vision Engineer",
+    "demand_level": "MEDIUM DEMAND",
+    "top_required_skills": ["Python", "Computer Vision", "PyTorch", "Deep Learning", "OpenCV"],
+    "emerging_skills": ["Vision Transformers (ViT)", "3D Vision", "Edge AI (TensorRT)"],
+    "tools_and_frameworks": ["OpenCV", "PyTorch", "Torchvision", "YOLO", "Albumentations"],
+    "cloud_technologies": ["AWS", "Docker", "NVIDIA CUDA"],
+    "key_responsibilities": [
+      "Develop image classification, object detection, and video segmentation models.",
+      "Optimize vision inference pipelines for real-time edge devices."
+    ],
+    "salary_trend_summary": "Specialized demand in robotics, autonomous vehicles, and medical imaging.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "NLP Engineer": {
+    "role_name": "NLP Engineer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "Natural Language Processing", "PyTorch", "Transformers", "Large Language Models"],
+    "emerging_skills": ["LLM Alignment (RLHF/DPO)", "Small Language Models", "Tokenization Optimization"],
+    "tools_and_frameworks": ["Hugging Face", "PyTorch", "spaCy", "NLTK", "LangChain"],
+    "cloud_technologies": ["AWS", "Docker"],
+    "key_responsibilities": [
+      "Develop text processing pipelines, sentiment classifiers, and entity extractors.",
+      "Fine-tune transformer models on domain-specific corpora."
+    ],
+    "salary_trend_summary": "High demand driven by conversational AI and search engines.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  },
+  "MLOps Engineer": {
+    "role_name": "MLOps Engineer",
+    "demand_level": "HIGH DEMAND",
+    "top_required_skills": ["Python", "Docker", "Kubernetes", "Git", "CI/CD", "AWS"],
+    "emerging_skills": ["GitOps (ArgoCD)", "Infrastructure as Code (Terraform)", "Model Registry Automation"],
+    "tools_and_frameworks": ["Kubeflow", "MLflow", "Docker", "Kubernetes", "DVC"],
+    "cloud_technologies": ["AWS", "GCP", "Azure", "GitHub Actions"],
+    "key_responsibilities": [
+      "Build CI/CD automation pipelines for machine learning model training and serving.",
+      "Manage cloud infrastructure, container orchestration, and monitoring telemetry."
+    ],
+    "salary_trend_summary": "High demand due to companies transitioning ML models into production.",
+    "data_source": "Market insight based on configured reference data",
+    "updated_at": "2026-09-12T00:00:00Z"
+  }
+}
