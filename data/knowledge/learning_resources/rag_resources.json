@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "RAG & Vector Search Learning Catalog",
+    "role": "GenAI Engineer",
+    "document_type": "learning_resource",
+    "version": "1.0"
+  },
+  "content": "Curated Learning Catalog for Retrieval Augmented Generation: LangChain docs, LlamaIndex tutorials, Sentence-Transformers documentation, FAISS vector index guide, and building production AI agents."
+}

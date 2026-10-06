@@ -19,5 +19,8 @@ Target Role: {target_role}
 Candidate Skill Gaps To Fill:
 {skill_gaps_json}
 
+{rag_context}
+
 Please generate a ProjectRecommendationResponse JSON matching the required schema.
 """
+

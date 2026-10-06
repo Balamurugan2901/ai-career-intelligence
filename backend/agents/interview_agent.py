@@ -1,11 +1,13 @@
 import json
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from backend.config import settings
 from backend.prompts.interview.generate_questions import (
     INTERVIEW_PREP_SYSTEM_INSTRUCTION,
     INTERVIEW_PREP_PROMPT_TEMPLATE,
 )
+from backend.mcp.server import mcp_server
+from backend.rag.retriever import rag_retriever
 from backend.schemas.candidate import CandidateProfileSchema
 from backend.schemas.interview import (
     InterviewQuestionItemSchema,
@@ -21,7 +23,7 @@ class InterviewPreparationAgent:
     """
     Agent 7: Interview Preparation Agent.
     Responsible for generating custom interview preparation questions across 8 categories,
-    tailored to the candidate's resume, projects, and target role skill gaps.
+    tailored to the candidate's resume, projects, target role skill gaps, RAG interview context, and MCP tools.
     """
 
     CATEGORIES = [
@@ -46,13 +48,32 @@ class InterviewPreparationAgent:
         candidate_id: int = 1,
     ) -> InterviewPreparationResponse:
         """
-        Generates tailored interview preparation questions grouped by category.
+        Generates tailored interview preparation questions grouped by category with RAG context support and MCP tools.
         """
         logger.info(f"InterviewPreparationAgent generating questions for '{profile.name}' -> '{target_role}'...")
 
+        # Retrieve RAG domain context
+        rag_results = rag_retriever.retrieve(query=target_role, document_type="interview_bank")
+        context_text, sources = rag_retriever.format_context_and_sources(rag_results)
+        rag_ctx_str = f"Reference Knowledge Context:\n{context_text}" if context_text else ""
+
+        # Invoke MCP Tool
+        if settings.MCP_ENABLED:
+            mcp_res = mcp_server.call_tool("search_interview_bank", {"category": "GenAI Questions", "role_name": target_role})
+            if mcp_res.success and mcp_res.data:
+                sources.append({
+                    "source": mcp_res.source,
+                    "tool": mcp_res.tool_name,
+                    "title": f"MCP Interview Bank for {target_role}",
+                    "total_questions": mcp_res.data.get("total_questions", 0),
+                })
+
+
         if settings.is_demo_mode():
             logger.info("DEMO_MODE enabled: Returning template interview preparation package.")
-            return self._generate_demo_interview_prep(profile, target_role, skill_gaps, candidate_id)
+            prep_res = self._generate_demo_interview_prep(profile, target_role, skill_gaps, candidate_id)
+            prep_res.sources = sources
+            return prep_res
 
         try:
             proj_summary = ", ".join(p.title for p in profile.projects) if profile.projects else "None specified"
@@ -65,6 +86,7 @@ class InterviewPreparationAgent:
                 candidate_projects=proj_summary,
                 target_role=target_role,
                 skill_gaps_json=json.dumps(gaps_data, indent=2),
+                rag_context=rag_ctx_str,
             )
 
             prep_res: InterviewPreparationResponse = self.llm_service.generate_json(
@@ -74,12 +96,15 @@ class InterviewPreparationAgent:
             )
             prep_res.candidate_id = candidate_id
             prep_res.target_role = target_role
+            prep_res.sources = sources
 
             logger.info(f"InterviewPreparationAgent successfully generated {prep_res.total_questions} interview questions across {len(prep_res.categories)} categories.")
             return prep_res
         except Exception as e:
             logger.error(f"InterviewPreparationAgent LLM call failed: {e}. Returning fallback interview prep package.")
-            return self._generate_demo_interview_prep(profile, target_role, skill_gaps, candidate_id)
+            prep_res = self._generate_demo_interview_prep(profile, target_role, skill_gaps, candidate_id)
+            prep_res.sources = sources
+            return prep_res
 
     def _generate_demo_interview_prep(
         self,
@@ -244,3 +269,4 @@ class InterviewPreparationAgent:
 
 # Singleton agent instance
 interview_agent = InterviewPreparationAgent()
+

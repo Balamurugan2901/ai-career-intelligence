@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Retrieval-Augmented Generation (RAG)",
+    "role": "GenAI Engineer",
+    "document_type": "skill_dependency",
+    "version": "1.0"
+  },
+  "content": "Prerequisites: Python, LLMs, Vector Databases. Canonical Skill: RAG. Core Topics: Document chunking, embeddings, vector stores, hybrid search, reranking, source citation."
+}

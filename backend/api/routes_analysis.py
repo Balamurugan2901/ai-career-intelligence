@@ -72,7 +72,10 @@ def start_pipeline_analysis(
             agents_completed=run_rec.agents_completed or [],
             created_at=run_rec.created_at.isoformat() if run_rec.created_at else None,
             completed_at=run_rec.completed_at.isoformat() if run_rec.completed_at else None,
+            cached=summary_res.cached,
+            evidence_sources=summary_res.evidence_sources,
         )
+
 
     except Exception as e:
         logger.error(f"Error starting analysis pipeline: {e}")
@@ -113,6 +116,7 @@ def get_analysis_status(
 @router.get("/candidate/{candidate_id}/full", response_model=FullAnalysisSummaryResponse)
 def get_full_candidate_analysis_summary(
     candidate_id: int,
+    target_role: Optional[str] = Query(None, description="Optional target role override"),
     db: Session = Depends(get_db),
 ):
     """Retrieves full aggregated 7-agent career intelligence summary for a candidate profile."""
@@ -123,64 +127,6 @@ def get_full_candidate_analysis_summary(
             detail=f"Candidate profile #{candidate_id} not found.",
         )
 
-    # 1. Profile
-    if profile_record.profile_json:
-        profile_schema = CandidateProfileSchema.model_validate(profile_record.profile_json)
-    else:
-        profile_schema = CandidateProfileSchema(
-            name=profile_record.name or "Candidate",
-            professional_summary=profile_record.professional_summary or "",
-            years_of_experience=profile_record.years_of_experience or 0.0,
-        )
+    return CareerAnalysisPipeline.execute(db=db, candidate_id=candidate_id, target_role=target_role)
 
-    # 2. Career Matches
-    db_paths = CareerRepository.get_career_paths_by_candidate_id(db, candidate_id)
-    if not db_paths:
-        # Run pipeline if not yet analyzed
-        return CareerAnalysisPipeline.execute(db=db, candidate_id=candidate_id)
 
-    career_matches = [
-        CareerPathBase(
-            role_name=p.role_name,
-            fit_score=p.fit_score,
-            reasoning=p.reasoning or "",
-            matching_skills=p.matching_skills or [],
-            missing_skills=p.missing_skills or [],
-            recommended_next_step=p.recommended_next_step or "",
-        )
-        for p in db_paths
-    ]
-
-    selected_role = career_matches[0].role_name if career_matches else "GenAI Engineer"
-
-    # 3. Market Intelligence
-    role_names = [p.role_name for p in career_matches]
-    market_intelligence = market_agent.analyze_market_for_roles(role_names)
-
-    # 4. Skill Gap Analysis
-    gap_analysis = skill_gap_agent.analyze_candidate_gaps(profile_schema, selected_role, candidate_id)
-
-    # 5. Learning Roadmap
-    roadmap = roadmap_agent.generate_roadmap(profile_schema, selected_role, gap_analysis.gaps, candidate_id)
-
-    # 6. Project Recommendations
-    projects = project_agent.recommend_projects(profile_schema, selected_role, gap_analysis.gaps, candidate_id)
-
-    # 7. Interview Preparation
-    interview_prep = interview_agent.generate_interview_prep(profile_schema, selected_role, gap_analysis.gaps, candidate_id)
-
-    latest_run = AnalysisRepository.get_latest_run_for_candidate(db, candidate_id)
-
-    return FullAnalysisSummaryResponse(
-        analysis_id=latest_run.id if latest_run else 1,
-        candidate_id=candidate_id,
-        target_role=selected_role,
-        execution_time_seconds=latest_run.execution_time_seconds if latest_run else 1.5,
-        profile=profile_schema,
-        career_matches=career_matches,
-        market_intelligence=market_intelligence,
-        skill_gap_analysis=gap_analysis,
-        learning_roadmap=roadmap,
-        project_recommendations=projects,
-        interview_preparation=interview_prep,
-    )

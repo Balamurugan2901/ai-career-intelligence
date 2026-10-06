@@ -16,6 +16,12 @@ def render_projects_view(full_analysis: Optional[Dict[str, Any]]):
     projects = projects_data.get("projects", [])
 
     st.markdown(f"### Recommended Projects for: <span style='color: #38BDF8;'>{target_role}</span>", unsafe_allow_html=True)
+
+    sources = projects_data.get("sources", [])
+    if sources:
+        from frontend.styles import render_evidence_sources
+        render_evidence_sources(sources, title="Evidence & Sources for Project Recommendations")
+
     st.divider()
 
     if not projects:

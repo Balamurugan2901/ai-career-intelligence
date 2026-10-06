@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "GenAI & RAG Interview Question Bank",
+    "role": "GenAI Engineer",
+    "document_type": "interview_bank",
+    "version": "1.0"
+  },
+  "content": "GenAI Interview Question Bank: 1. Explain dense vs sparse vector retrieval. 2. How do you handle chunk overlap in RAG? 3. What strategies mitigate LLM hallucinations?"
+}

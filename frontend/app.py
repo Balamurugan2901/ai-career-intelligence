@@ -18,6 +18,7 @@ from frontend.views.skill_gap_view import render_skill_gap_view
 from frontend.views.roadmap_view import render_roadmap_view
 from frontend.views.projects_view import render_projects_view
 from frontend.views.interview_view import render_interview_view
+from frontend.views.evidence_view import render_evidence_view
 from frontend.views.status_view import render_status_view
 
 # Streamlit Page Setup
@@ -66,6 +67,7 @@ def main():
                 "🗺️ Learning Roadmap",
                 "💡 Recommended Projects",
                 "🎯 Interview Preparation",
+                "🔍 Evidence & Provenance",
                 "⚙️ System Status",
             ],
             index=0,
@@ -103,8 +105,11 @@ def main():
         render_projects_view(st.session_state.full_analysis)
     elif page == "🎯 Interview Preparation":
         render_interview_view(st.session_state.full_analysis)
+    elif page == "🔍 Evidence & Provenance":
+        render_evidence_view(st.session_state.full_analysis)
     elif page == "⚙️ System Status":
         render_status_view()
+
 
 
 if __name__ == "__main__":

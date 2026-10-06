@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -14,6 +14,7 @@ class MarketRoleDemand(BaseModel):
     salary_trend_summary: Optional[str] = Field(default=None, description="Qualitative summary of compensation trends")
     data_source: str = Field(default="Market insight based on configured reference data", description="Source provenance metadata")
     updated_at: Optional[str] = Field(default=None, description="ISO timestamp of reference update")
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
 
 
 class MarketIntelligenceResponse(BaseModel):
@@ -21,3 +22,5 @@ class MarketIntelligenceResponse(BaseModel):
     candidate_id: int
     analyzed_roles_count: int
     market_demands: List[MarketRoleDemand]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

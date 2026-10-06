@@ -42,9 +42,15 @@ def render_home_view(full_analysis: Optional[Dict[str, Any]], is_demo_mode: bool
         gaps = full_analysis.get("skill_gap_analysis", {})
         target_role = full_analysis.get("target_role", "Target Role")
         exec_time = full_analysis.get("execution_time_seconds", 0.0)
+        cached = full_analysis.get("cached", False)
+        evidence_sources = full_analysis.get("evidence_sources", [])
 
         top_match = matches[0] if matches else {"role_name": target_role, "fit_score": 85.0}
         high_gaps_count = gaps.get("high_priority_count", 0)
+
+        if cached:
+            st.markdown('<span class="badge badge-cache">⚡ CACHED PIPELINE RESULT</span> <span style="color: #94A3B8; font-size: 0.85rem;">Served instantly from in-memory pipeline cache</span>', unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
 
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -77,13 +83,18 @@ def render_home_view(full_analysis: Optional[Dict[str, Any]], is_demo_mode: bool
         with col4:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">Pipeline Duration</div>
-                <div class="metric-value" style="color: #34D399;">{exec_time:.2f}s</div>
-                <div class="metric-delta">7 Autonomous Agents</div>
+                <div class="metric-label">Evidence & Sources</div>
+                <div class="metric-value" style="color: #38BDF8;">{len(evidence_sources)}</div>
+                <div class="metric-delta">RAG & MCP Sources</div>
             </div>
             """, unsafe_allow_html=True)
 
         st.divider()
+
+        # Evidence Sources Inspector
+        from frontend.styles import render_evidence_sources
+        render_evidence_sources(evidence_sources, title="Global Pipeline Execution Evidence & Provenance")
+
 
         # Immediate Actionable Next Steps Card
         st.markdown("### ⚡ Actionable Next Steps")

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -29,3 +29,5 @@ class LearningRoadmapResponse(BaseModel):
     total_phases: int
     total_estimated_hours: str
     phases: List[RoadmapPhaseSchema]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

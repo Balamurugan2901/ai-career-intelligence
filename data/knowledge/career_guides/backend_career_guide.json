@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Backend Software Developer Guide",
+    "role": "Backend Developer",
+    "document_type": "career_guide",
+    "version": "1.0"
+  },
+  "content": "Mastering Backend Engineering: API design best practices, microservices architecture, SQL optimization, and async message queues."
+}

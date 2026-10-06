@@ -26,6 +26,17 @@ class Settings(BaseSettings):
     # Services Config
     MARKET_PROVIDER: str = "mock"
 
+    # RAG Settings
+    RAG_ENABLED: bool = True
+    RAG_TOP_K: int = 5
+    RAG_CHUNK_SIZE: int = 500
+    RAG_CHUNK_OVERLAP: int = 50
+
+    # MCP Settings
+    MCP_ENABLED: bool = True
+
+
+
     model_config = SettingsConfigDict(
         env_file=str(BASE_DIR / ".env"),
         env_file_encoding="utf-8",

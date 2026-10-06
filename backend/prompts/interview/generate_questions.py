@@ -26,5 +26,8 @@ Target Role: {target_role}
 Skill Gaps To Probe:
 {skill_gaps_json}
 
+{rag_context}
+
 Please generate an InterviewPreparationResponse JSON matching the required schema.
 """
+

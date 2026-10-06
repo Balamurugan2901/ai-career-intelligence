@@ -14,5 +14,8 @@ Role Name: {role_name}
 Reference Market Data:
 {reference_data_json}
 
+{rag_context}
+
 Please output a structured MarketRoleDemand JSON matching the required schema.
 """
+

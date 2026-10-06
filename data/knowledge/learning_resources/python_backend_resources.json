@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "FastAPI & Modern Python Guide",
+    "role": "Backend Developer",
+    "document_type": "learning_resource",
+    "version": "1.0"
+  },
+  "content": "FastAPI official docs, Pydantic v2 data validation, SQLAlchemy ORM mastery, uvicorn deployment, and building RESTful APIs with Python."
+}

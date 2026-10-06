@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Autonomous RAG Knowledge Agent",
+    "role": "GenAI Engineer",
+    "document_type": "project_blueprint",
+    "version": "1.0"
+  },
+  "content": "Build an autonomous RAG knowledge base assistant with hybrid search, dense TF-IDF LSA vector store, Streamlit UI, and transparent source citations."
+}

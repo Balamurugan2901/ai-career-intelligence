@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "SQL & Relational Databases",
+    "role": "Data Analyst",
+    "document_type": "skill_dependency",
+    "version": "1.0"
+  },
+  "content": "Prerequisites: Database fundamentals. Canonical Skill: SQL. Core Topics: Joins, aggregations, CTEs, window functions, query optimization, indexing, schema design."
+}

@@ -16,6 +16,12 @@ def render_roadmap_view(full_analysis: Optional[Dict[str, Any]]):
     phases = roadmap.get("phases", [])
 
     st.markdown(f"### Roadmap for Target Role: <span style='color: #38BDF8;'>{target_role}</span>", unsafe_allow_html=True)
+    
+    sources = roadmap.get("sources", [])
+    if sources:
+        from frontend.styles import render_evidence_sources
+        render_evidence_sources(sources, title="Evidence & Sources for Learning Roadmap")
+
     st.divider()
 
     if not phases:

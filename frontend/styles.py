@@ -113,6 +113,31 @@ def apply_custom_styles():
             border: 1px solid rgba(16, 185, 129, 0.4);
         }
 
+        .badge-rag {
+            background: rgba(168, 85, 247, 0.2);
+            color: #C084FC;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+        }
+
+        .badge-mcp {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38BDF8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .badge-cache {
+            background: rgba(52, 211, 153, 0.2);
+            color: #34D399;
+            border: 1px solid rgba(52, 211, 153, 0.4);
+        }
+
+        .badge-reference {
+            background: rgba(148, 163, 184, 0.2);
+            color: #CBD5E1;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+
+
         .skill-pill {
             display: inline-block;
             background: #1E293B;
@@ -162,3 +187,37 @@ def apply_custom_styles():
         }
         </style>
     """, unsafe_allow_html=True)
+
+
+def render_evidence_sources(sources: list, title: str = "Evidence & Provenance Inspector"):
+    """Renders a collapsible Streamlit expander detailing RAG knowledge documents & MCP tool execution sources."""
+    if not sources:
+        return
+
+    with st.expander(f"🔍 {title} ({len(sources)} Sources Consulted)", expanded=False):
+        for idx, src in enumerate(sources, 1):
+            if isinstance(src, dict):
+                src_type = src.get("source", "Reference Knowledge Base")
+                doc_title = src.get("title") or src.get("file_path") or src.get("tool") or f"Source #{idx}"
+                doc_type = src.get("document_type") or src.get("tool") or "Reference Data"
+                role = src.get("role") or src.get("demand_level") or ""
+
+                if "MCP" in src_type or "tool" in src:
+                    badge = '<span class="badge badge-mcp">MCP TOOL</span>'
+                elif "RAG" in src_type or "Knowledge" in src_type:
+                    badge = '<span class="badge badge-rag">RAG CONTEXT</span>'
+                else:
+                    badge = '<span class="badge badge-reference">REFERENCE DATA</span>'
+
+                st.markdown(
+                    f"""
+                    <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem;">
+                        {badge} <strong>{doc_title}</strong> 
+                        <span style="color: #94A3B8; font-size: 0.8rem; margin-left: 0.5rem;">
+                            [{doc_type}{f" | {role}" if role else ""}]
+                        </span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+

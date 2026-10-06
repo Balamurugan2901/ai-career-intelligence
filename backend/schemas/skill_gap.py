@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -23,3 +23,5 @@ class SkillGapAnalysisResponse(BaseModel):
     medium_priority_count: int
     matched_strengths_count: int
     gaps: List[SkillGapItem]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

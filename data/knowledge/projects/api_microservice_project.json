@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "High-Throughput FastAPI Microservice",
+    "role": "Backend Developer",
+    "document_type": "project_blueprint",
+    "version": "1.0"
+  },
+  "content": "Architect a high-performance REST API microservice with FastAPI, PostgreSQL, Redis caching, Pydantic validation, and Docker containerization."
+}

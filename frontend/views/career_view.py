@@ -67,9 +67,16 @@ def render_career_view(full_analysis: Optional[Dict[str, Any]]):
 
             st.markdown(f"**Recommended Next Step:** {recommended_next}")
 
+            # Evidence & Provenance Inspector for role
+            sources = match.get("sources", [])
+            if sources:
+                from frontend.styles import render_evidence_sources
+                render_evidence_sources(sources, title=f"Evidence & Sources for {role_name}")
+
             # Role Selection Button
             if not is_selected:
                 if st.button(f"🎯 Set '{role_name}' as Active Target Role", key=f"select_role_{idx}"):
+
                     try:
                         candidate_id = full_analysis.get("candidate_id", 1)
                         with st.spinner(f"Re-running downstream agents for target role: '{role_name}'..."):

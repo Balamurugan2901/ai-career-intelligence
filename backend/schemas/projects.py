@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -22,3 +22,5 @@ class ProjectRecommendationResponse(BaseModel):
     target_role: str
     total_projects: int
     projects: List[ProjectItemSchema]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

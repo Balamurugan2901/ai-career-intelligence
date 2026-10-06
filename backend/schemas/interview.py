@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -24,3 +24,5 @@ class InterviewPreparationResponse(BaseModel):
     target_role: str
     total_questions: int
     categories: List[InterviewCategorySchema]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

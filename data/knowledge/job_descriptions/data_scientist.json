@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Data Scientist Role Requirements",
+    "role": "Data Scientist",
+    "document_type": "job_description",
+    "version": "1.0"
+  },
+  "content": "Role Overview: Perform statistical analysis, predictive modeling, machine learning research, data mining, and hypothesis testing.\nCore Responsibilities:\n- Design and maintain end-to-end technical solutions for Data Scientist domain.\n- Collaborate with engineering, product, and data teams to deliver scalable software features.\n- Build clean, tested code and automated evaluation suites.\n\nRequired Key Technical Skills:\n- Primary Languages: Python, SQL, C++, Java, Bash.\n- Essential Tools & Frameworks: PyTorch, TensorFlow, FastAPI, Docker, Git, PostgreSQL, Pandas, NumPy.\n- Core Domains: Data structures, algorithms, system design, data modeling, API integration.\n"
+}

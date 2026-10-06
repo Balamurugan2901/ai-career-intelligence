@@ -24,5 +24,8 @@ Target Role: {target_role}
 Identified Skill Gaps & Priorities:
 {skill_gaps_json}
 
+{rag_context}
+
 Please generate a personalized LearningRoadmapResponse JSON matching the required schema.
 """
+

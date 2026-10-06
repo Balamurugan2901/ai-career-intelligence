@@ -58,4 +58,11 @@ def render_market_view(full_analysis: Optional[Dict[str, Any]]):
                 else:
                     st.write("N/A")
 
+            # Evidence & Provenance Inspector
+            sources = role_item.get("sources", [])
+            if sources:
+                from frontend.styles import render_evidence_sources
+                render_evidence_sources(sources, title=f"Evidence & Sources for {role_name} Market Data")
+
             st.divider()
+

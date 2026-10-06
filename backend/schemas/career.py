@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -10,6 +10,7 @@ class CareerPathBase(BaseModel):
     matching_skills: List[str] = Field(default_factory=list, description="Candidate skills matching role requirements")
     missing_skills: List[str] = Field(default_factory=list, description="Required skills missing from candidate profile")
     recommended_next_step: str = Field(description="Specific actionable advice to close skill gap for this role")
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
 
 
 class CareerMatchListResponse(BaseModel):
@@ -18,3 +19,5 @@ class CareerMatchListResponse(BaseModel):
     candidate_name: Optional[str] = None
     total_matches: int
     career_paths: List[CareerPathBase]
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="Retrieved RAG knowledge sources")
+

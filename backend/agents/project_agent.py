@@ -1,11 +1,13 @@
 import json
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from backend.config import settings
 from backend.prompts.projects.suggest_projects import (
     PROJECT_RECOMMENDATION_SYSTEM_INSTRUCTION,
     PROJECT_RECOMMENDATION_PROMPT_TEMPLATE,
 )
+from backend.mcp.server import mcp_server
+from backend.rag.retriever import rag_retriever
 from backend.schemas.candidate import CandidateProfileSchema
 from backend.schemas.projects import ProjectItemSchema, ProjectRecommendationResponse
 from backend.schemas.skill_gap import SkillGapItem
@@ -17,7 +19,7 @@ class ProjectRecommendationAgent:
     """
     Agent 6: Project Recommendation Agent.
     Responsible for generating high-value portfolio project recommendations specifically
-    designed to address and close the candidate's identified skill gaps.
+    designed to address and close the candidate's identified skill gaps, enriched with RAG knowledge and MCP job tools.
     """
 
     def __init__(self, llm_svc: Optional[LLMService] = None):
@@ -32,13 +34,34 @@ class ProjectRecommendationAgent:
     ) -> ProjectRecommendationResponse:
         """
         Generates 3 progressive portfolio projects (Beginner, Intermediate, Advanced)
-        targeting the candidate's identified skill gaps.
+        targeting the candidate's identified skill gaps with RAG context support and MCP tools.
         """
         logger.info(f"ProjectRecommendationAgent analyzing projects for '{profile.name}' -> '{target_role}'...")
 
+        # Retrieve RAG domain context
+        rag_results = rag_retriever.retrieve(query=target_role, document_type="project_blueprint")
+        context_text, sources = rag_retriever.format_context_and_sources(rag_results)
+        rag_ctx_str = f"Reference Knowledge Context:\n{context_text}" if context_text else ""
+
+        # Invoke MCP Tool
+        if settings.MCP_ENABLED:
+            missing_skills = [g.skill for g in skill_gaps if g.gap_type != "strength"]
+            primary_skill = missing_skills[0] if missing_skills else "Python"
+            mcp_res = mcp_server.call_tool("search_jobs", {"keyword": primary_skill})
+            if mcp_res.success and mcp_res.data:
+                sources.append({
+                    "source": mcp_res.source,
+                    "tool": mcp_res.tool_name,
+                    "title": f"MCP Job Benchmark Search for {primary_skill}",
+                    "total_matches": mcp_res.data.get("total_matches", 0),
+                })
+
+
         if settings.is_demo_mode():
             logger.info("DEMO_MODE enabled: Returning template project recommendations ladder.")
-            return self._generate_demo_projects(profile, target_role, skill_gaps, candidate_id)
+            response = self._generate_demo_projects(profile, target_role, skill_gaps, candidate_id)
+            response.sources = sources
+            return response
 
         try:
             gaps_data = [g.model_dump() for g in skill_gaps if g.gap_type != "strength"]
@@ -47,6 +70,7 @@ class ProjectRecommendationAgent:
                 candidate_skills=", ".join(profile.skills.all_skills_list()),
                 target_role=target_role,
                 skill_gaps_json=json.dumps(gaps_data, indent=2),
+                rag_context=rag_ctx_str,
             )
 
             response: ProjectRecommendationResponse = self.llm_service.generate_json(
@@ -56,6 +80,7 @@ class ProjectRecommendationAgent:
             )
             response.candidate_id = candidate_id
             response.target_role = target_role
+            response.sources = sources
 
             # Ensure difficulty ladder validation
             response = self._validate_difficulty_ladder(response)
@@ -64,7 +89,9 @@ class ProjectRecommendationAgent:
             return response
         except Exception as e:
             logger.error(f"ProjectRecommendationAgent LLM call failed: {e}. Returning fallback project recommendations.")
-            return self._generate_demo_projects(profile, target_role, skill_gaps, candidate_id)
+            response = self._generate_demo_projects(profile, target_role, skill_gaps, candidate_id)
+            response.sources = sources
+            return response
 
     def _validate_difficulty_ladder(self, response: ProjectRecommendationResponse) -> ProjectRecommendationResponse:
         """Ensures projects follow progressive Beginner -> Intermediate -> Advanced ladder."""
@@ -163,3 +190,4 @@ class ProjectRecommendationAgent:
 
 # Singleton agent instance
 project_agent = ProjectRecommendationAgent()
+

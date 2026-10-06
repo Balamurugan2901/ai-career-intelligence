@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "PyTorch Framework",
+    "role": "AI Engineer",
+    "document_type": "skill_dependency",
+    "version": "1.0"
+  },
+  "content": "Prerequisites: Python, Linear Algebra, Calculus. Canonical Skill: PyTorch. Core Topics: Tensors, autograd, Neural Network modules, DataLoaders, CUDA optimization, TorchScript."
+}

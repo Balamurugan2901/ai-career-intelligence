@@ -19,5 +19,8 @@ Target Role: {target_role}
 Deterministic Skill Gap Matrix:
 {deterministic_gaps_json}
 
+{rag_context}
+
 Please output a structured SkillGapAnalysisResponse JSON matching the required schema.
 """
+

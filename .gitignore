@@ -11,6 +11,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.joblib
+
+# RAG Vector Store Index & Vector Artifacts
+data/vector_store/
 
 # Databases & Local Storage
 *.db

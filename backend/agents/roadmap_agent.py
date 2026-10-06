@@ -1,11 +1,13 @@
 import json
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from backend.config import settings
 from backend.prompts.roadmap.generate_plan import (
     ROADMAP_SYSTEM_INSTRUCTION,
     ROADMAP_PROMPT_TEMPLATE,
 )
+from backend.mcp.server import mcp_server
+from backend.rag.retriever import rag_retriever
 from backend.schemas.candidate import CandidateProfileSchema
 from backend.schemas.roadmap import (
     RoadmapItemSchema,
@@ -21,7 +23,7 @@ class LearningRoadmapAgent:
     """
     Agent 5: Learning Roadmap Agent.
     Responsible for generating a personalized 6-phase progressive action plan
-    bridging the candidate's skill gaps for their target career role.
+    bridging the candidate's skill gaps for their target career role with RAG context and MCP resource tools.
     """
 
     PHASE_NAMES = [
@@ -43,12 +45,33 @@ class LearningRoadmapAgent:
         skill_gaps: List[SkillGapItem],
         candidate_id: int = 1,
     ) -> LearningRoadmapResponse:
-        """Generates a personalized, progressive 6-phase learning roadmap."""
+        """Generates a personalized, progressive 6-phase learning roadmap with RAG domain guidance and MCP resource catalogs."""
         logger.info(f"LearningRoadmapAgent generating roadmap for '{profile.name}' -> '{target_role}'...")
+
+        # Retrieve RAG domain context
+        rag_results = rag_retriever.retrieve(query=target_role, document_type="learning_resource")
+        context_text, sources = rag_retriever.format_context_and_sources(rag_results)
+        rag_ctx_str = f"Reference Knowledge Context:\n{context_text}" if context_text else ""
+
+        # Invoke MCP Tool
+        if settings.MCP_ENABLED:
+            missing_skills = [g.skill for g in skill_gaps if g.gap_type != "strength"]
+            primary_skill = missing_skills[0] if missing_skills else "Python"
+            mcp_res = mcp_server.call_tool("search_learning_resources", {"skill_name": primary_skill})
+            if mcp_res.success and mcp_res.data:
+                sources.append({
+                    "source": mcp_res.source,
+                    "tool": mcp_res.tool_name,
+                    "title": f"MCP Learning Resource Catalog for {primary_skill}",
+                    "total_found": mcp_res.data.get("total_found", 0),
+                })
+
 
         if settings.is_demo_mode():
             logger.info("DEMO_MODE enabled: Returning template 6-phase roadmap.")
-            return self._generate_demo_roadmap(profile, target_role, skill_gaps, candidate_id)
+            roadmap_res = self._generate_demo_roadmap(profile, target_role, skill_gaps, candidate_id)
+            roadmap_res.sources = sources
+            return roadmap_res
 
         try:
             gaps_data = [g.model_dump() for g in skill_gaps if g.gap_type != "strength"]
@@ -58,6 +81,7 @@ class LearningRoadmapAgent:
                 candidate_skills=", ".join(profile.skills.all_skills_list()),
                 target_role=target_role,
                 skill_gaps_json=json.dumps(gaps_data, indent=2),
+                rag_context=rag_ctx_str,
             )
 
             roadmap_res: LearningRoadmapResponse = self.llm_service.generate_json(
@@ -67,12 +91,15 @@ class LearningRoadmapAgent:
             )
             roadmap_res.candidate_id = candidate_id
             roadmap_res.target_role = target_role
+            roadmap_res.sources = sources
 
             logger.info(f"LearningRoadmapAgent successfully generated roadmap with {len(roadmap_res.phases)} phases.")
             return roadmap_res
         except Exception as e:
             logger.error(f"LearningRoadmapAgent API call failed: {e}. Returning fallback template roadmap.")
-            return self._generate_demo_roadmap(profile, target_role, skill_gaps, candidate_id)
+            roadmap_res = self._generate_demo_roadmap(profile, target_role, skill_gaps, candidate_id)
+            roadmap_res.sources = sources
+            return roadmap_res
 
     def _generate_demo_roadmap(
         self,
@@ -224,3 +251,4 @@ class LearningRoadmapAgent:
 
 # Singleton agent instance
 roadmap_agent = LearningRoadmapAgent()
+

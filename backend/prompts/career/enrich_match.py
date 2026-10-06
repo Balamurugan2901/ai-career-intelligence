@@ -18,5 +18,8 @@ Candidate Skills: {candidate_skills}
 Calculated Role Matches:
 {calculated_matches_json}
 
+{rag_context}
+
 Please generate an enriched list of CareerPath JSON items matching the required schema.
 """
+

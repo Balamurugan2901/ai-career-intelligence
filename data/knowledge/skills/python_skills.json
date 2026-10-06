@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Python Programming",
+    "role": "Python",
+    "document_type": "skill_dependency",
+    "version": "1.0"
+  },
+  "content": "Prerequisites: Basic programming concepts. Canonical Skill: Python. Core Topics: Data structures, OOP, async processing, GIL, typing, packages, virtual environments."
+}

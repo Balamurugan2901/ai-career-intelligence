@@ -30,6 +30,12 @@ def render_skill_gap_view(full_analysis: Optional[Dict[str, Any]]):
 
     st.divider()
 
+    sources = gap_data.get("sources", [])
+    if sources:
+        from frontend.styles import render_evidence_sources
+        render_evidence_sources(sources, title="Evidence & Sources for Skill Gap Analysis")
+
+
     tab1, tab2 = st.tabs(["🧩 Prioritized Skill Gaps", "💪 Identified Profile Strengths"])
 
     with tab1:

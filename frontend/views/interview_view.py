@@ -16,6 +16,12 @@ def render_interview_view(full_analysis: Optional[Dict[str, Any]]):
     total_q = interview_data.get("total_questions", 0)
 
     st.markdown(f"### Total Tailored Questions: <span style='color: #38BDF8;'>{total_q} Questions</span> across 8 Categories", unsafe_allow_html=True)
+
+    sources = interview_data.get("sources", [])
+    if sources:
+        from frontend.styles import render_evidence_sources
+        render_evidence_sources(sources, title="Evidence & Sources for Interview Preparation")
+
     st.divider()
 
     if not categories:

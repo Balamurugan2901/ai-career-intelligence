@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "source": "Reference Knowledge Base",
+    "title": "Machine Learning Technical Interview Questions",
+    "role": "ML Engineer",
+    "document_type": "interview_bank",
+    "version": "1.0"
+  },
+  "content": "ML Technical Interview Questions: 1. Precision vs recall. 2. Gradient descent. 3. Bias-variance tradeoff and regularization (L1/L2)."
+}
