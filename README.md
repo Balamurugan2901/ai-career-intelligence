@@ -7,12 +7,12 @@
 
 ## 🚀 Key Architectural Differentiators
 
-1. **Hardware-Optimized Footprint (<50 MB RAM Peak)**: Designed for standard 8 GB RAM machines without requiring GPUs or heavy local LLMs. Uses lightweight scikit-learn TF-IDF LSA dense vector search and an in-process Model Context Protocol (MCP) server.
+1. **Hardware-Optimized Footprint **: Designed for standard 8 GB RAM machines without requiring GPUs or heavy local LLMs. Uses lightweight scikit-learn TF-IDF LSA dense vector search and an in-process Model Context Protocol (MCP) server.
 2. **Transparent Heuristic Match Scoring**: Avoids LLM hallucination of numerical metrics. Calculates deterministic Profile Fit Scores strictly in Python code using configurable weighted formulas (Skill Match 50%, Experience Match 20%, Projects 15%, Education 10%, Certifications 5%).
 3. **Local RAG Subsystem (CPU Vector Store)**: Retrieves semantic reference knowledge from structured domain JSON documents (`data/knowledge/`) using LSA SVD dense embeddings (64 dimensions) with complete source metadata preservation.
 4. **Local Model Context Protocol (MCP) Infrastructure**: Native, standard-compliant in-process MCP server executing local reference tools (`job_tools`, `market_tools`, `skill_tools`, `resource_tools`) with strict provenance attribution (`source: "MCP Local Reference Provider"`).
 5. **Full Evidence & Provenance Traceability**: Every recommendation, roadmap phase, project blueprint, and interview rubric features expandable "Evidence & Sources" UI cards showing the exact RAG chunks and MCP tools that informed the analysis.
-6. **Token & Cost Optimization Lifecycle (>70% Token Savings)**: Passes intermediate structured Pydantic schemas downstream and uses SHA-256 pipeline caching (`PipelineCache`) to serve re-requests instantly in under 1 ms with **0 LLM token cost**.
+6. **Token & Cost Optimization Lifecycle **: Passes intermediate structured Pydantic schemas downstream and uses SHA-256 pipeline caching (`PipelineCache`) to serve re-requests instantly in under 1 ms with **0 LLM token cost**.
 
 ---
 
